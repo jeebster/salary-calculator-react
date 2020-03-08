@@ -10,6 +10,8 @@ class App extends Component {
       healthCareAmount: 0.0,
       investmentsAmount: 0.0,
       investmentsMatchPercentage: 0.0,
+      taxPercentage: 0.0,
+      miscBenefitsAmount: 0.0,
       workHoursPerWeek: 40,
     };
 
@@ -30,16 +32,18 @@ class App extends Component {
     const {
       annualSalaryAmount, healthCareAmount,
       investmentsAmount, investmentsMatchPercentage,
-      workHoursPerWeek
+      taxPercentage, workHoursPerWeek, miscBenefitsAmount
     } = this.state;
 
     const workHoursPerYear = workHoursPerWeek * 52 // weeks-per-year
     const investmentsMatchAmount = (investmentsAmount * (investmentsMatchPercentage / 100));
+    const taxAdjustedSalaryAmount = annualSalaryAmount + (annualSalaryAmount * (taxPercentage / 100));
     const adjustedCompensationAmount =
-      annualSalaryAmount +
+      taxAdjustedSalaryAmount +
       healthCareAmount +
       investmentsAmount +
-      investmentsMatchAmount
+      investmentsMatchAmount +
+      miscBenefitsAmount;
     const calculatedTotal = adjustedCompensationAmount / workHoursPerYear;
 
     this.setState({
@@ -51,7 +55,8 @@ class App extends Component {
     const {
       annualSalaryAmount, calculatedTotal,
       healthCareAmount, investmentsAmount,
-      investmentsMatchPercentage, workHoursPerWeek
+      investmentsMatchPercentage, workHoursPerWeek,
+      taxPercentage, miscBenefitsAmount
     } = this.state;
 
     return (
@@ -79,6 +84,16 @@ class App extends Component {
               value={annualSalaryAmount}
               onChange={this.handleChange}
               required
+            />
+          </div>
+
+          <div className="form-control">
+            <label>Tax Rate</label>
+            <input
+              name="taxPercentage"
+              type="number"
+              value={taxPercentage}
+              onChange={this.handleChange}
             />
           </div>
 
@@ -113,6 +128,16 @@ class App extends Component {
           </div>
 
           <div className="form-control">
+            <label>Miscellaneous Benefits Amount</label>
+            <input
+              name="miscBenefitsAmount"
+              type="number"
+              value={miscBenefitsAmount}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <div className="form-control">
             <input
               type="submit"
               value="Calculate"
@@ -122,7 +147,7 @@ class App extends Component {
 
         <div id="calculator-total">
           <h2>Your Rate:</h2>
-          {calculatedTotal.toFixed(2)}
+          {`$${calculatedTotal.toFixed(2)}`}
         </div>
       </div>
     )
