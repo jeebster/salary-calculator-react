@@ -42,6 +42,7 @@ class App extends Component {
     const adjustedHealthcareAmount = healthCareAmount * 12; // benefits cost per-year
     const adjustedMiscBenefitsAmount = miscBenefitsAmount * 12; // benefits cost per-year
     const adjustedInvestmentsAmount = (investmentsAmount * 12) + (investmentsMatchAmount * 12) // total per-year
+
     const adjustedCompensationAmount =
       taxAdjustedSalaryAmount +
       adjustedHealthcareAmount +
@@ -54,6 +55,30 @@ class App extends Component {
     this.setState({
       calculatedTotal: calculatedTotal
     });
+  }
+
+  renderFormInput(label, inputName, inputValue) {
+    return (
+      <div className="field is-horizontal">
+        <div className="field-label is-normal">
+          <label className="label">{label}</label>
+        </div>
+        <div className="field-body">
+          <div className="field">
+            <p className="control">
+              <input
+                name={inputName}
+                className="input"
+                type="number"
+                value={inputValue}
+                onChange={this.handleChange}
+                required
+              />
+            </p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   render() {
@@ -76,140 +101,13 @@ class App extends Component {
         <section className="section">
           <div className="container">
             <form onSubmit={this.handleSubmit}>
-              <div className="field is-horizontal">
-                <div className="field-label is-normal">
-                  <label className="label">Work Hours Per Week</label>
-                </div>
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control">
-                      <input
-                        name="workHoursPerWeek"
-                        className="input"
-                        type="number"
-                        value={workHoursPerWeek}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="field is-horizontal">
-                <div className="field-label is-normal">
-                  <label className="label">Annual Salary Amount</label>
-                </div>
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control">
-                      <input
-                        name="annualSalaryAmount"
-                        className="input"
-                        type="number"
-                        value={annualSalaryAmount}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="field is-horizontal">
-                <div className="field-label is-normal">
-                  <label className="label">Tax Rate</label>
-                </div>
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control">
-                      <input
-                        name="taxPercentage"
-                        className="input"
-                        type="number"
-                        value={taxPercentage}
-                        onChange={this.handleChange}
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="field is-horizontal">
-                <div className="field-label is-normal">
-                  <label className="label">Monthly Healthcare Premium</label>
-                </div>
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control">
-                      <input
-                        name="healthCareAmount"
-                        className="input"
-                        type="number"
-                        value={healthCareAmount}
-                        onChange={this.handleChange}
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="field is-horizontal">
-                <div className="field-label is-normal">
-                  <label className="label">Monthly 401k Investment Amount</label>
-                </div>
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control">
-                      <input
-                        name="investmentsAmount"
-                        className="input"
-                        type="number"
-                        value={investmentsAmount}
-                        onChange={this.handleChange}
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="field is-horizontal">
-                <div className="field-label is-normal">
-                  <label className="label">Employer 401k Investment Match</label>
-                </div>
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control">
-                      <input
-                        name="investmentsMatchPercentage"
-                        className="input"
-                        type="number"
-                        value={investmentsMatchPercentage}
-                        onChange={this.handleChange}
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="field is-horizontal">
-                <div className="field-label is-normal">
-                  <label className="label">Monthly Miscellaneous Benefits Amount</label>
-                </div>
-                <div className="field-body">
-                  <div className="field">
-                    <p className="control">
-                      <input
-                        name="miscBenefitsAmount"
-                        className="input"
-                        type="number"
-                        value={miscBenefitsAmount}
-                        onChange={this.handleChange}
-                      />
-                    </p>
-                  </div>
-                </div>
-              </div>
+              {this.renderFormInput("Work Hours Per Week", "workHoursPerWeek", workHoursPerWeek)}
+              {this.renderFormInput("Annual Salary Amount", "annualSalaryAmount", annualSalaryAmount)}
+              {this.renderFormInput("Tax Rate", "taxPercentage", taxPercentage)}
+              {this.renderFormInput("Monthly Healthcare Premium", "healthCareAmount", healthCareAmount)}
+              {this.renderFormInput("Monthly 401k Investment Amount", "investmentsAmount", investmentsAmount)}
+              {this.renderFormInput("Employer 401k Investment Match", "investmentsMatchPercentage", investmentsMatchPercentage)}
+              {this.renderFormInput("Monthly Miscellaneous Benefits Amount", "miscBenefitsAmount", miscBenefitsAmount)}
 
               <div className="field is-horizontal">
                 <div className="field-label">
@@ -229,6 +127,7 @@ class App extends Component {
               </div>
             </form>
           </div>
+
           <section className="section">
             <div className="container">
               <h2 className="title is-4">
