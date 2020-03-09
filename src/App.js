@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   constructor(props) {
@@ -35,15 +35,20 @@ class App extends Component {
       taxPercentage, workHoursPerWeek, miscBenefitsAmount
     } = this.state;
 
+    // base calculations
     const workHoursPerYear = workHoursPerWeek * 52 // weeks-per-year
     const investmentsMatchAmount = (investmentsAmount * (investmentsMatchPercentage / 100));
     const taxAdjustedSalaryAmount = annualSalaryAmount + (annualSalaryAmount * (taxPercentage / 100));
+    const adjustedHealthcareAmount = healthCareAmount * 12; // benefits cost per-year
+    const adjustedMiscBenefitsAmount = miscBenefitsAmount * 12; // benefits cost per-year
+    const adjustedInvestmentsAmount = (investmentsAmount * 12) + (investmentsMatchAmount * 12) // total per-year
     const adjustedCompensationAmount =
       taxAdjustedSalaryAmount +
-      healthCareAmount +
-      investmentsAmount +
-      investmentsMatchAmount +
-      miscBenefitsAmount;
+      adjustedHealthcareAmount +
+      adjustedInvestmentsAmount +
+      adjustedMiscBenefitsAmount;
+
+    // ultimate calculation
     const calculatedTotal = adjustedCompensationAmount / workHoursPerYear;
 
     this.setState({
@@ -61,94 +66,181 @@ class App extends Component {
 
     return (
       <div className="app">
-        <h1>Compensation Rate Calculator</h1>
-        <p>Calculate your equivalent annual salary to an hourly rate</p>
-
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-control">
-            <label>Work Hours Per Week</label>
-            <input
-              name="annualSalaryAmount"
-              type="number"
-              value={workHoursPerWeek}
-              onChange={this.handleChange}
-              required
-            />
+        <header className="section">
+          <div className="container">
+            <h1 className="title">Compensation Rate Calculator</h1>
+            <p className="subtitle">Calculate your equivalent annual salary to an hourly rate</p>
           </div>
+        </header>
 
-          <div className="form-control">
-            <label>Annual Salary Amount</label>
-            <input
-              name="annualSalaryAmount"
-              type="number"
-              value={annualSalaryAmount}
-              onChange={this.handleChange}
-              required
-            />
+        <section className="section">
+          <div className="container">
+            <form onSubmit={this.handleSubmit}>
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label className="label">Work Hours Per Week</label>
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control">
+                      <input
+                        name="workHoursPerWeek"
+                        className="input"
+                        type="number"
+                        value={workHoursPerWeek}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label className="label">Annual Salary Amount</label>
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control">
+                      <input
+                        name="annualSalaryAmount"
+                        className="input"
+                        type="number"
+                        value={annualSalaryAmount}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label className="label">Tax Rate</label>
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control">
+                      <input
+                        name="taxPercentage"
+                        className="input"
+                        type="number"
+                        value={taxPercentage}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label className="label">Monthly Healthcare Premium</label>
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control">
+                      <input
+                        name="healthCareAmount"
+                        className="input"
+                        type="number"
+                        value={healthCareAmount}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label className="label">Monthly 401k Investment Amount</label>
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control">
+                      <input
+                        name="investmentsAmount"
+                        className="input"
+                        type="number"
+                        value={investmentsAmount}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label className="label">Employer 401k Investment Match</label>
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control">
+                      <input
+                        name="investmentsMatchPercentage"
+                        className="input"
+                        type="number"
+                        value={investmentsMatchPercentage}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="field is-horizontal">
+                <div className="field-label is-normal">
+                  <label className="label">Monthly Miscellaneous Benefits Amount</label>
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <p className="control">
+                      <input
+                        name="miscBenefitsAmount"
+                        className="input"
+                        type="number"
+                        value={miscBenefitsAmount}
+                        onChange={this.handleChange}
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="field is-horizontal">
+                <div className="field-label">
+                  {/* Left empty for spacing */}
+                </div>
+                <div className="field-body">
+                  <div className="field">
+                    <div className="control">
+                      <input
+                        className="button is-primary"
+                        type="submit"
+                        value="Calculate"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
+          <section className="section">
+            <div className="container">
+              <h2 className="title is-4">
+                Your Rate: <span className="calculated-total-text">{`$${calculatedTotal.toFixed(2)}`}</span>
+              </h2>
+            </div>
+          </section>
+        </section>
 
-          <div className="form-control">
-            <label>Tax Rate</label>
-            <input
-              name="taxPercentage"
-              type="number"
-              value={taxPercentage}
-              onChange={this.handleChange}
-            />
-          </div>
-
-          <div className="form-control">
-            <label>Monthly Healthcare Premium</label>
-            <input
-              name="healthCareAmount"
-              type="number"
-              value={healthCareAmount}
-              onChange={this.handleChange}
-            />
-          </div>
-
-          <div className="form-control">
-            <label>Monthly Investments Amount</label>
-            <input
-              name="investmentsAmount"
-              type="number"
-              value={investmentsAmount}
-              onChange={this.handleChange}
-            />
-          </div>
-
-          <div className="form-control">
-            <label>Employer Investments Match Percentage</label>
-            <input
-              name="investmentsMatchPercentage"
-              type="number"
-              value={investmentsMatchPercentage}
-              onChange={this.handleChange}
-            />
-          </div>
-
-          <div className="form-control">
-            <label>Miscellaneous Benefits Amount</label>
-            <input
-              name="miscBenefitsAmount"
-              type="number"
-              value={miscBenefitsAmount}
-              onChange={this.handleChange}
-            />
-          </div>
-
-          <div className="form-control">
-            <input
-              type="submit"
-              value="Calculate"
-            />
-          </div>
-        </form>
-
-        <div id="calculator-total">
-          <h2>Your Rate:</h2>
-          {`$${calculatedTotal.toFixed(2)}`}
-        </div>
+        <footer className="footer">
+          by <a href="https://gregjmorrison.com">Greg Morrison</a>
+        </footer>
       </div>
     )
   }
