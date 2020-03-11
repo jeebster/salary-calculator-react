@@ -36,12 +36,12 @@ class App extends Component {
     } = this.state;
 
     // base calculations
-    const workHoursPerYear = workHoursPerWeek * 52 // weeks-per-year
+    const workHoursPerYear = workHoursPerWeek * 52; // weeks-per-year
     const investmentsMatchAmount = (investmentsAmount * (investmentsMatchPercentage / 100));
     const taxAdjustedSalaryAmount = annualSalaryAmount + (annualSalaryAmount * (taxPercentage / 100));
     const adjustedHealthcareAmount = healthCareAmount * 12; // benefits cost per-year
     const adjustedMiscBenefitsAmount = miscBenefitsAmount * 12; // benefits cost per-year
-    const adjustedInvestmentsAmount = (investmentsAmount * 12) + (investmentsMatchAmount * 12) // total per-year
+    const adjustedInvestmentsAmount = (investmentsAmount * 12) + (investmentsMatchAmount * 12); // total per-year
 
     const adjustedCompensationAmount =
       taxAdjustedSalaryAmount +
@@ -68,6 +68,7 @@ class App extends Component {
             <p className="control">
               <input
                 name={inputName}
+                aria-label={inputName}
                 className="input"
                 type="number"
                 value={inputValue}
@@ -118,6 +119,7 @@ class App extends Component {
                     <div className="control">
                       <input
                         className="button is-primary"
+                        aria-label="submit"
                         type="submit"
                         value="Calculate"
                       />
@@ -131,7 +133,7 @@ class App extends Component {
           <section className="section">
             <div className="container">
               <h2 className="title is-4">
-                Your Rate: <span className="calculated-total-text">{`$${calculatedTotal.toFixed(2)}`}</span>
+                Your Rate: <span aria-label="calculated-total" className="calculated-total-text">{`$${calculatedTotal.toFixed(2)}`}</span>
               </h2>
             </div>
           </section>
